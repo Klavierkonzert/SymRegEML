@@ -1,0 +1,32 @@
+f1 / exp_log
+  x_domain: [0.1, 5.9]
+  beta: -0.5
+  proposals: 2000
+  max_complexity: 250
+  max_depth: 35
+  train_rmse: 10.7978
+  test_rmse: 12.4406
+  complexity: 103
+  coefficients: [-45.282362763430115, -5.929283816606713e-12, 13.473816406273016, -3.3244402112584264]
+  final_expression: -45.2824 - 5.92928e-12*(Re(exp(exp(exp(x[0])-log(exp(x[1])-log(exp(1)-log(x[1]))))-log(exp(x[0])-log(exp(exp(1)-log(1))-log(exp(exp(exp(x[1])-log(x[1]))-log(exp(1)-log(x[0])))-log(x[1])))))-log(exp(exp(exp(exp(1)-log(exp(x[1])-log(x[0])))-log(x[0]))-log(exp(exp(exp(exp(x[1])-log(exp(x[0])-log(exp(1)-log(exp(exp(x[1])-log(1))-log(1)))))-log(exp(exp(exp(exp(x[1])-log(x[1]))-log(x[1]))-log(1))-log(exp(x[0])-log(exp(exp(exp(x[0])-log(exp(exp(exp(x[0])-log(1))-log(exp(x[0])-log(x[1])))-log(x[0])))-log(x[1]))-log(x[1])))))-log(exp(1)-log(1)))-log(x[0])))-log(exp(x[0])-log(exp(1)-log(1)))))) + 13.4738*(Re(exp(x[0])-log(x[0]))) - 3.32444*(Re(exp(exp(exp(1)-log(exp(exp(1)-log(x[0]))-log(exp(1)-log(exp(1)-log(1)))))-log(exp(1)-log(1)))-log(exp(x[1])-log(1))))
+  simplified_expression: -3.32444021125843*exp(-1 + exp(2*E)*re(x0)/(log(-1 + E)**2*re(x0)**2 + log(-1 + E)**2*im(x0)**2 + exp(2*E)*re(x0)**4/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) + 2*exp(2*E)*re(x0)**2*im(x0)**2/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) + exp(2*E)*im(x0)**4/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) - 2*exp(E)*log(-1 + E)*re(x0)**3/(re(x0)**2 + im(x0)**2) - 2*exp(E)*log(-1 + E)*re(x0)*im(x0)**2/(re(x0)**2 + im(x0)**2)) - exp(E)*log(-1 + E)/(log(-1 + E)**2 + exp(2*E)*re(x0)**2/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) + exp(2*E)*im(x0)**2/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) - 2*exp(E)*log(-1 + E)*re(x0)/(re(x0)**2 + im(x0)**2)))*cos(exp(2*E)*im(x0)/(log(-1 + E)**2*re(x0)**2 + log(-1 + E)**2*im(x0)**2 + exp(2*E)*re(x0)**4/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) + 2*exp(2*E)*re(x0)**2*im(x0)**2/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) + exp(2*E)*im(x0)**4/(re(x0)**4 + 2*re(x0)**2*im(x0)**2 + im(x0)**4) - 2*exp(E)*log(-1 + E)*re(x0)**3/(re(x0)**2 + im(x0)**2) - 2*exp(E)*log(-1 + E)*re(x0)*im(x0)**2/(re(x0)**2 + im(x0)**2))) + 13.473816406273*exp(re(x0))*cos(im(x0)) - 13.473816406273*log(Abs(x0)) + 5.92928381660671e-12*log(Abs(log(exp(x0) - 1) - exp(exp(exp(E)/(exp(x1) - log(x0)))/x0)/(exp(-1)*exp(exp(exp(exp(x1))/(exp(x0) - log(E - log(exp(exp(x1))))))/(exp(exp(exp(exp(x1))/x1)/x1) - log(exp(x0) - log(-log(x1) + exp(-exp(exp(x0))/(log(x0) - exp(exp(exp(x0)))/(exp(x0) - log(x1))))/x1)))) - log(x0)))) + 3.32444021125843*re(x1) - 5.92928381660671e-12*re(exp(exp(exp(x0))/(exp(x1) - log(E - log(x1))))/(exp(x0) - log(-log(-log(x1) + exp(exp(exp(x1))/x1)/(E - log(x0))) + exp(E)))) - 45.2823627634301
+  tree_1: Re(exp(exp(exp(x[0])-log(exp(x[1])-log(exp(1)-log(x[1]))))-log(exp(x[0])-log(exp(exp(1)-log(1))-log(exp(exp(exp(x[1])-log(x[1]))-log(exp(1)-log(x[0])))-log(x[1])))))-log(exp(exp(exp(exp(1)-log(exp(x[1])-log(x[0])))-log(x[0]))-log(exp(exp(exp(exp(x[1])-log(exp(x[0])-log(exp(1)-log(exp(exp(x[1])-log(1))-log(1)))))-log(exp(exp(exp(exp(x[1])-log(x[1]))-log(x[1]))-log(1))-log(exp(x[0])-log(exp(exp(exp(x[0])-log(exp(exp(exp(x[0])-log(1))-log(exp(x[0])-log(x[1])))-log(x[0])))-log(x[1]))-log(x[1])))))-log(exp(1)-log(1)))-log(x[0])))-log(exp(x[0])-log(exp(1)-log(1)))))
+  tree_2: Re(exp(x[0])-log(x[0]))
+  tree_3: Re(exp(exp(exp(1)-log(exp(exp(1)-log(x[0]))-log(exp(1)-log(exp(1)-log(1)))))-log(exp(1)-log(1)))-log(exp(x[1])-log(1)))
+
+f2 / exp_log
+  x_domain: [0.1, 5.9]
+  beta: -0.5
+  proposals: 2000
+  max_complexity: 150
+  max_depth: 30
+  train_rmse: 37.5415
+  test_rmse: 47.5014
+  complexity: 61
+  coefficients: [219.49693576248376, -67.50080353385668, 4.198282052571198, -6.120019305627451]
+  final_expression: 219.497 - 67.5008*(Re(exp(1)-log(exp(x[0])-log(exp(x[0])-log(exp(x[1])-log(exp(exp(exp(x[1])-log(exp(1)-log(x[1])))-log(x[0]))-log(exp(exp(exp(1)-log(exp(1)-log(exp(exp(x[1])-log(1))-log(x[1]))))-log(1))-log(x[1])))))))) + 4.19828*(Re(exp(x[1])-log(exp(1)-log(exp(x[0])-log(exp(x[1])-log(x[1])))))) - 6.12002*(Re(exp(1)-log(exp(exp(x[1])-log(exp(exp(exp(x[0])-log(exp(1)-log(x[0])))-log(exp(exp(1)-log(exp(x[1])-log(x[0])))-log(exp(1)-log(1))))-log(x[0])))-log(1))))
+  simplified_expression: 4.1982820525712*exp(re(x1))*cos(im(x1)) + 6.12001930562745*log(exp(exp(re(x1))*cos(im(x1)))*Abs(1/(log(x0) + exp(-exp(exp(x0))/(log(x0) - E))/(1 - exp(E)/(exp(x1) - log(x0)))))) + 67.5008035338567*log(Abs(exp(x0) - log(exp(x0) - log(exp(x1) - log(-log(exp(exp(E)/(E - log(exp(exp(x1)) - log(x1)))) - log(x1)) + exp(exp(exp(x1))/(E - log(x1)))/x0))))) - 4.1982820525712*log(Abs(log(exp(x0) - log(exp(x1) - log(x1))) - E)) - 73.6208228394841*E + 219.496935762484
+  tree_1: Re(exp(1)-log(exp(x[0])-log(exp(x[0])-log(exp(x[1])-log(exp(exp(exp(x[1])-log(exp(1)-log(x[1])))-log(x[0]))-log(exp(exp(exp(1)-log(exp(1)-log(exp(exp(x[1])-log(1))-log(x[1]))))-log(1))-log(x[1])))))))
+  tree_2: Re(exp(x[1])-log(exp(1)-log(exp(x[0])-log(exp(x[1])-log(x[1])))))
+  tree_3: Re(exp(1)-log(exp(exp(x[1])-log(exp(exp(exp(x[0])-log(exp(1)-log(x[0])))-log(exp(exp(1)-log(exp(x[1])-log(x[0])))-log(exp(1)-log(1))))-log(x[0])))-log(1)))
+
