@@ -15,6 +15,12 @@ This project is based on two primary papers:
 
 The objective is to analyze the performance, limitations, and optimization characteristics of restricting the symbolic regression operator set to the single binary **EML operator** and unity within the Bayesian Symbolic Regression (BSR) framework ([ORIGINAL_README.md](./ORIGINAL_README.md)).
 
+Full comprehensive yet less structured version of this report can be found here: [extended_report.md](./extended_report.md)
+
+
+<div style="break-after: page;"></div>
+
+
 # A Bit of Theory
 ## Foundations of Symbolic Regression
 
@@ -26,19 +32,21 @@ Symbolic regression searches the space of mathematical expressions to discover a
   * **Extended Set (`default`):** $$\Omega_{\text{default}} = \Omega_{\text{paper}} \cup \{\sin, \cos, x^2, x^3\}$$
   * **EML Set (`exp_log`):** $$\Omega_{\text{EML}} = \{1, \text{eml}(x, y) = \exp(x) - \ln(y)\}$$
 
-<div style="break-after: page;"></div>
-
 ### Theoretical Comparison: BSR vs. Kolmogorov-Arnold
 * **Bayesian SR (BSR)** models the output as a linear combination of symbolic trees:
-  $$y = \beta_0 + \sum_{i=1}^{k} \beta_i \cdot T_i(x) + \epsilon$$
+  \[y = \beta_0 + \sum_{i=1}^{k} \beta_i \cdot T_i(x) + \epsilon\]
 * **Kolmogorov-Arnold Representation** decomposes multivariate functions into nested sums of continuous univariate functions:
-  $$f(x_1, \dots, x_n) = \sum_{q=0}^{2n} \Phi_q \left( \sum_{p=1}^n \phi_{q,p}(x_p) \right)$$
+  \[f(x_1, \dots, x_n) = \sum_{q=0}^{2n} \Phi_q \left( \sum_{p=1}^n \phi_{q,p}(x_p) \right)\]
 
 While both use outer addition ($+$) to aggregate subfunctions, BSR focuses on finding discrete, human-interpretable algebraic equations rather than continuous network layers.
 
+
+<div style="break-after: page;"></div>
+
+
 ## Bayesian Symbolic Regression (BSR) Mechanics
 
-* The overall response variable $y$ **aggregates** $k$ independent symbolic trees via an Ordinary Least Squares (OLS) fitting pipeline:$$y = \text{OLS}\left(x, \{(T_i, M_i, \Theta_i)\}_{i=1}^{k}\right) + \epsilon, \quad \epsilon \sim N(0, \sigma^2)$$
+* The overall response variable $y$ **aggregates** $k$ independent symbolic trees via an Ordinary Least Squares (OLS) fitting pipeline: \[y = \text{OLS}\left(x, \{(T_i, M_i, \Theta_i)\}_{i=1}^{k}\right) + \epsilon, \quad \epsilon \sim N(0, \sigma^2)\]
 * BSR uses structural complexity **priors** on trees ($T$) to penalize deep or wide topologies and avoid overfitting.
 * **Parametrization:** For `default` and `paper` sets, linear scaling nodes ($ax+b$) are tuned using Gaussian priors around the identity function. For the final model, tree weights ($\beta_i$) and the global intercept ($\beta_0$) are solved jointly using Ordinary Least Squares (OLS).
 * **Metropolis-Hastings Sampling -** structural exploration iteratively samples modified tree topologies from a proposal distribution, accepting or rejecting structural changes sequentially
@@ -48,7 +56,7 @@ While both use outer addition ($+$) to aggregate subfunctions, BSR focuses on fi
 
 The EML operator provides a functional framework capable of representing every elementary mathematical function.
 * **Completeness:** The $\{\text{EML}, 1\}$ set is functionally complete. Over the complex plane, negative arguments allow standard trigonometric and hyperbolic functions to be represented as complex exponential configurations via Euler's identity:
-  $$\cos(x) = \frac{e^{ix} + e^{-ix}}{2}, \quad \sin(x) = \frac{e^{ix} - e^{-ix}}{2i}$$
+  \[\cos(x) = \frac{e^{ix} + e^{-ix}}{2}, \quad \sin(x) = \frac{e^{ix} - e^{-ix}}{2i}\]
 
 
 
@@ -63,17 +71,17 @@ The EML operator provides a functional framework capable of representing every e
 ## Benchmark Targets and Domain
 The BSR framework was evaluated using three operator sets on:
 1. **Benchmark formulas ($f_1$ to $f_6$)** from the original BSR paper:
-   - $ f_1 := 2.5 x_0 ^4 - 1.3  x_0^3 + 0.5  x_1^2 - 1.7  x_1$
-   - $ f_2 := 8 x_0 ^ 2 + 8 x_1 ^ 3 - 15 $
-   - $ f_3 := 0.2 x_0 ^ 3 + 0.5 x_1 ^ 3 - 1.2 x_1 - 0.5 x_0 $
-   - $ f_4:= 1.5 \exp(x_0) + 5 \cos(x_1) $
-   - $ f_5:= 6  \sin(x_0)  \cos(x_1) $
-   - $ f_6:= 1.35 x_0 x_1 + 5.5 \sin((x_0- 1.0) \cdot (x_1 - 1.0)) $
+   - $f_1 := 2.5 x_0 ^4 - 1.3  x_0^3 + 0.5  x_1^2 - 1.7  x_1$
+   - $f_2 := 8 x_0 ^ 2 + 8 x_1 ^ 3 - 15$
+   - $f_3 := 0.2 x_0 ^ 3 + 0.5 x_1 ^ 3 - 1.2 x_1 - 0.5 x_0$
+   - $f_4:= 1.5 \exp(x_0) + 5 \cos(x_1)$
+   - $f_5:= 6  \sin(x_0)  \cos(x_1) $
+   - $f_6:= 1.35 x_0 x_1 + 5.5 \sin((x_0- 1.0) \cdot (x_1 - 1.0))$
 2. **EML-specific test targets** ($f_{\text{eml\_test1}}$ to $f_{\text{eml\_test4}}$):
-   -  $f_{\text{eml\_test1}} := x_0^2 $
-   -  $f_{\text{eml\_test2}} := x_0^3 $ 
-   -  $f_{\text{eml\_test3}} :=x_0^2 + x_1^2 + x_0 x_1$
-   -  $f_{\text{eml\_test4}} := \cos(x_0) + \sin(x_1)$ 
+   -  $f_{eml\_test1} := x_0^2$
+   -  $f_{eml\_test2} := x_0^3$ 
+   -  $f_{eml\_test3} :=x_0^2 + x_1^2 + x_0 x_1$
+   -  $f_{eml\_test4} := \cos(x_0) + \sin(x_1)$ 
 3. **Multiplicative and periodic primitives**: 
    - $f_{\text{xy}} := x_0 x_1$
    - $f_{\text{cos}} := \cos(x_0)$
@@ -98,10 +106,10 @@ Numbers in the cells represent RMSE (Train/Test) and **Complexity**.
 | **$f_4$** |  $1.0 \times 10^{-5}$ / $1.0 \times 10^{-5}$ <br> **10** | $0.16902$ / $0.27851$ <br> **39** | $1.46171$ / $1.54410$ <br> **249** |
 | **$f_5$** |  $1.1 \times 10^{-7}$ / $1.0 \times 10^{-7}$ <br> **12** | $2.77454$ / $2.85032$ <br> **17** | $2.60806$ / $2.80786$ <br> **599** |
 | **$f_6$** | $3.48422$ / $3.70906$ <br> **13** | $3.20180$ / $3.63576$ <br> **14** | $7.21936$ / $7.36068$ <br> **509** |
-| **$f_{\text{eml\_test1}}$** | | $9.8 \times 10^{-7}$ / $1.1 \times 10^{-6}$ <br> **12** | $0.99891$ / $1.21311$ <br> **19** |
-| **$f_{\text{eml\_test2}}$** | | $6.9 \times 10^{-6}$ / $6.6 \times 10^{-6}$ <br> **10** | $13.46164$ / $14.28857$ <br> **25** |
-| **$f_{\text{eml\_test3}}$** |  | $2.6 \times 10^{-6}$ / $2.9 \times 10^{-6}$ <br> **14** | $6.38797$ / $6.47829$ <br> **37** |
-| **$f_{\text{eml\_test4}}$** |   | $0.14030$ / $0.17403$ <br> **46** | $0.61475$ / $0.62960$ <br> **150** | 
+| **$f_{eml\_test1}$** | | $9.8 \times 10^{-7}$ / $1.1 \times 10^{-6}$ <br> **12** | $0.99891$ / $1.21311$ <br> **19** |
+| **$f_{eml\_test2}$** | | $6.9 \times 10^{-6}$ / $6.6 \times 10^{-6}$ <br> **10** | $13.46164$ / $14.28857$ <br> **25** |
+| **$f_{eml\_test3}$** |  | $2.6 \times 10^{-6}$ / $2.9 \times 10^{-6}$ <br> **14** | $6.38797$ / $6.47829$ <br> **37** |
+| **$f_{eml\_test4}$** |   | $0.14030$ / $0.17403$ <br> **46** | $0.61475$ / $0.62960$ <br> **150** | 
 
 
 <div style="break-after: page;"></div>
@@ -136,10 +144,10 @@ The best results obtained across these optimized runs are shown below.
 | **$f_6$** | 4 | 2 | 190 | $2.0821$ | $2.0951$ | Collapsed to 2 active trees (2 died). |
 | **$f_{\text{xy}}$** | 1 | 1 | 19 | $0.4142$ | $0.4322$ | Approximates multiplication as single tree. |
 | **$f_{\text{cos}}$** | 2 | 1 | 160 | $0.2286$ | $0.2451$ | Collapsed to 1 active tree (1 died). |
-| **$f_{\text{eml\_test1}}$** | 1 | 1 | 19 | $0.1458$ | $0.1519$ | Stable quadratic approximation. |
-| **$f_{\text{eml\_test2}} $** | 1 | 1 | 29 | $0.1877$ | $0.1870$ | Stable cubic approximation. |
-| **$f_{\text{eml\_test3}}$** | 3 | 3 | 69 | $0.6966$ | $0.7425$ | Reconstructs 3-tree additive fit. |
-| **$f_{\text{eml\_test4}}$** | 4 | 3 | 150 | $0.1564$ | $0.2188$ | Collapsed to 3 active trees (1 died), poor reconstruction. |
+| **$f_{eml\_test1}$** | 1 | 1 | 19 | $0.1458$ | $0.1519$ | Stable quadratic approximation. |
+| **$f_{eml\_test2}$** | 1 | 1 | 29 | $0.1877$ | $0.1870$ | Stable cubic approximation. |
+| **$f_{eml\_test3}$** | 3 | 3 | 69 | $0.6966$ | $0.7425$ | Reconstructs 3-tree additive fit. |
+| **$f_{eml\_test4}$** | 4 | 3 | 150 | $0.1564$ | $0.2188$ | Collapsed to 3 active trees (1 died), poor reconstruction. |
 
 The plot below shows reconstuction of product of 2 numbers (2 attempts):
 ![alt text](image-5.png)
@@ -228,9 +236,9 @@ flowchart BT
 </div>
 
 ### Estimated EML Complexity and Depth for Benchmark Targets
-Applying these recursive building block rules allows us to estimate the theoretical minimum tree complexity $C$ and depth  $ D$ (exact or approximate estimate $ \approx \sqrt{2\pi C}$). required to represent each benchmark target under EML:
+Applying these recursive building block rules allows us to estimate the theoretical minimum tree complexity $C$ and depth  $D$ (exact or approximate estimate $\approx \sqrt{2\pi C}$). required to represent each benchmark target under EML:
 
-| Target Formula | EML Complexity Est. ($C_i, i=1,2$) | EML Depth Est.($D_i, i=1,2$) | Notes |
+| Target Formula | EML Complexity Est. ($C_i, i=1,2$) | EML Depth Est. ($D_i, i=1,2$) | Notes |
 |---|---|---|---|
 | **$f_1$** (4th-degree poly) | $92$ to $127$ | $24$ to $28$ | four-tree config split: $33, 25, 17, 9$ (depths: $17, 13, 9, 5$). |
 | **$f_2$** (quadratic + cubic) | $17$ and $25$ | $9$ and $13$ | **Easiest target:** fits cleanly as 2 separate active trees ($x_0^2$ and $x_1^3$). |
@@ -260,7 +268,7 @@ This conditional prior structure was proposed based on the exact mathematical st
 
 <div style="break-after: page;"></div>
 
-This structural prior forces the MCMC sampler to construct asymmetric, right-leaning "comb" topologies (like the one shown below), successfully halving the RMSE on $f_{\text{eml\_test2}}$ and $f_{\text{eml\_test3}}$:
+This structural prior forces the MCMC sampler to construct asymmetric, right-leaning "comb" topologies (like the one shown below), successfully halving the RMSE on $f_{eml\_test2}$ and $f_{eml\_test3}$:
 
 
 
@@ -287,12 +295,12 @@ flowchart TD
 
 
 ### Key Findings:
-* **Significant Search Efficiency:** For $f_{\text{eml\_test1}}$ (quadratic function) and $f_{\text{eml\_test2}}$ (cubic function), the prior forced BSR to find compact, tight approximations (reducing complexity from 17 down to 11 and 13 respectively) while halving the test RMSE on multi-term targets like $f_{\text{eml\_test3}}$. The plot below illustrates EML-approximated cubic function:
+* **Significant Search Efficiency:** For $f_{eml\_test1}$ (quadratic function) and $f_{eml\_test2}$ (cubic function), the prior forced BSR to find compact, tight approximations (reducing complexity from 17 down to 11 and 13 respectively) while halving the test RMSE on multi-term targets like $f_{eml\_test3}$. The plot below illustrates EML-approximated cubic function:
 <p align="center">
 <img src="image-1.png" alt="Example Image" width="60%" height="60%" >
 </p>
 
-* **Limits on Periodic Complexity:** While effective at navigating polynomial chains, the prior alone could not overcome the combinatorial wall of trigonometric representations (e.g. $f_{\text{eml\_test4}}$), confirming that structural priors must be combined with global heating/annealing to escape deep local minima.
+* **Limits on Periodic Complexity:** While effective at navigating polynomial chains, the prior alone could not overcome the combinatorial wall of trigonometric representations (e.g. $f_{eml\_test4}$), confirming that structural priors must be combined with global heating/annealing to escape deep local minima.
 
 
 <div style="break-after: page;"></div>
@@ -389,6 +397,7 @@ The project codebase consists of core Bayesian Symbolic Regression (BSR) framewo
 To run the Bayesian Symbolic Regression (BSR) framework and the EML experiments, firstly install the package in editable mode so that the `bsr` module is globally accessible to the benchmark scripts:
 ```bash
 #cd MCMC-SymReg
+cd SymRegEML
 pip install -e .
 ```
 
