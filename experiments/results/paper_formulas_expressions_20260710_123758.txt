@@ -1,0 +1,45 @@
+f1 / exp_log
+  x_domain: [0.1, 3]
+  beta: -0.5
+  proposals: 2000
+  max_complexity: 90
+  max_depth: 18
+  train_rmse: 2.13898
+  test_rmse: 2.35808
+  complexity: 89
+  coefficients: [-12.54521773285472, -3.475257298350485e-13, 9.650441788055696, 1.83370923988744e-05]
+  final_expression: -12.5452 - 3.47526e-13*(Re(exp(exp(exp(exp(x[1])-log(1))-log(exp(1)-log(exp(exp(1)-log(exp(exp(x[1])-log(exp(x[1])-log(exp(exp(1)-log(1))-log(exp(x[0])-log(exp(x[1])-log(exp(exp(1)-log(exp(1)-log(1)))-log(x[1])))))))-log(1)))-log(1))))-log(exp(1)-log(exp(x[1])-log(exp(1)-log(x[1])))))-log(exp(x[1])-log(exp(exp(x[1])-log(exp(1)-log(exp(1)-log(exp(exp(x[1])-log(exp(x[1])-log(exp(x[1])-log(exp(1)-log(x[1])))))-log(1)))))-log(x[1]))))) + 9.65044*(Re(exp(x[0])-log(exp(x[0])-log(exp(exp(exp(x[0])-log(exp(x[0])-log(1)))-log(x[0]))-log(x[0]))))) + 1.83371e-05*(Re(exp(exp(exp(1)-log(1))-log(exp(exp(exp(x[0])-log(1))-log(exp(1)-log(x[0])))-log(1)))-log(x[1])))
+  simplified_expression: -12.5452 + 9.65044*(Re(exp(x[0])-log(exp(x[0])-log(exp(exp(exp(x[0])-log(exp(x[0])-log(1)))-log(x[0]))-log(x[0]))))) + 1.83371e-05*(Re(exp(exp(exp(1)-log(1))-log(exp(exp(exp(x[0])-log(1))-log(exp(1)-log(x[0])))-log(1)))-log(x[1])))
+  tree_1: Re(exp(exp(exp(exp(x[1])-log(1))-log(exp(1)-log(exp(exp(1)-log(exp(exp(x[1])-log(exp(x[1])-log(exp(exp(1)-log(1))-log(exp(x[0])-log(exp(x[1])-log(exp(exp(1)-log(exp(1)-log(1)))-log(x[1])))))))-log(1)))-log(1))))-log(exp(1)-log(exp(x[1])-log(exp(1)-log(x[1])))))-log(exp(x[1])-log(exp(exp(x[1])-log(exp(1)-log(exp(1)-log(exp(exp(x[1])-log(exp(x[1])-log(exp(x[1])-log(exp(1)-log(x[1])))))-log(1)))))-log(x[1]))))
+  tree_2: Re(exp(x[0])-log(exp(x[0])-log(exp(exp(exp(x[0])-log(exp(x[0])-log(1)))-log(x[0]))-log(x[0]))))
+  tree_3: Re(exp(exp(exp(1)-log(1))-log(exp(exp(exp(x[0])-log(1))-log(exp(1)-log(x[0])))-log(1)))-log(x[1]))
+
+f2 / exp_log
+  x_domain: [0.1, 3]
+  beta: -0.5
+  proposals: 2000
+  max_complexity: 50
+  max_depth: 15
+  train_rmse: 3.15348
+  test_rmse: 3.08108
+  complexity: 50
+  coefficients: [-5.5723698984671755, 13.015785802293962, -3.981059578098005]
+  final_expression: -5.57237 + 13.0158*(Re(exp(x[1])-log(exp(1)-log(exp(x[1])-log(exp(exp(x[1])-log(1))-log(exp(exp(x[1])-log(exp(exp(x[1])-log(1))-log(exp(x[1])-log(exp(x[0])-log(exp(exp(x[0])-log(exp(1)-log(exp(x[1])-log(exp(1)-log(1)))))-log(1))))))-log(x[1]))))))) - 3.98106*(Re(exp(1)-log(exp(exp(x[0])-log(1))-log(exp(exp(x[0])-log(exp(1)-log(exp(exp(x[0])-log(x[1]))-log(x[0]))))-log(1)))))
+  simplified_expression: -5.57237 + 13.0158*(Re(exp(x[1])-log(exp(1)-log(exp(x[1])-log(exp(exp(x[1])-log(1))-log(exp(exp(x[1])-log(exp(exp(x[1])-log(1))-log(exp(x[1])-log(exp(x[0])-log(exp(exp(x[0])-log(exp(1)-log(exp(x[1])-log(exp(1)-log(1)))))-log(1))))))-log(x[1]))))))) - 3.98106*(Re(exp(1)-log(exp(exp(x[0])-log(1))-log(exp(exp(x[0])-log(exp(1)-log(exp(exp(x[0])-log(x[1]))-log(x[0]))))-log(1)))))
+  tree_1: Re(exp(x[1])-log(exp(1)-log(exp(x[1])-log(exp(exp(x[1])-log(1))-log(exp(exp(x[1])-log(exp(exp(x[1])-log(1))-log(exp(x[1])-log(exp(x[0])-log(exp(exp(x[0])-log(exp(1)-log(exp(x[1])-log(exp(1)-log(1)))))-log(1))))))-log(x[1]))))))
+  tree_2: Re(exp(1)-log(exp(exp(x[0])-log(1))-log(exp(exp(x[0])-log(exp(1)-log(exp(exp(x[0])-log(x[1]))-log(x[0]))))-log(1))))
+
+f_eml_test1 / exp_log
+  x_domain: [0.1, 3]
+  beta: -1.0
+  proposals: 2000
+  max_complexity: 20
+  max_depth: None
+  train_rmse: 0.198934
+  test_rmse: 0.249525
+  complexity: 19
+  coefficients: [0.18995379305894433, 0.4934575111334362]
+  final_expression: 0.189954 + 0.493458*(Re(exp(x[0])-log(exp(1)-log(exp(1)-log(exp(exp(1)-log(exp(exp(x[0])-log(exp(x[0])-log(x[0])))-log(exp(1)-log(1))))-log(x[0]))))))
+  simplified_expression: 0.189954 + 0.493458*(Re(exp(x[0])-log(exp(1)-log(exp(1)-log(exp(exp(1)-log(exp(exp(x[0])-log(exp(x[0])-log(x[0])))-log(exp(1)-log(1))))-log(x[0]))))))
+  tree_1: Re(exp(x[0])-log(exp(1)-log(exp(1)-log(exp(exp(1)-log(exp(exp(x[0])-log(exp(x[0])-log(x[0])))-log(exp(1)-log(1))))-log(x[0])))))
+
