@@ -115,14 +115,14 @@ Numbers in the cells represent RMSE (Train/Test) and **Complexity**.
 | **$f_5$** |  $1.1 \times 10^{-7}$ / $1.0 \times 10^{-7}$ <br> **12** | $2.77454$ / $2.85032$ <br> **17** | $2.60806$ / $2.80786$ <br> **599** |
 | **$f_6$** | $3.48422$ / $3.70906$ <br> **13** | $3.20180$ / $3.63576$ <br> **14** | $7.21936$ / $7.36068$ <br> **509** |
 
-#### EML Test Formulas ($f_{\text{eml\_test1}}$ to $f_{\text{eml\_test4}}$)
+#### EML Test Formulas ($f_{\text{eml\\_test1}}$ to $f_{\text{eml\\_test4}}$)
 
 | Formula | Target| `paper` set | `exp_log` (EML) set |
 |---|---|---|---|
-| **$f_{\text{eml\_test1}}$** | $x_0^2 $| $9.8 \times 10^{-7}$ / $1.1 \times 10^{-6}$ <br> **12** | $0.99891$ / $1.21311$ <br> **19** |
-| **$f_{\text{eml\_test2}}$** |$x_0^3 $ | $6.9 \times 10^{-6}$ / $6.6 \times 10^{-6}$ <br> **10** | $13.46164$ / $14.28857$ <br> **25** |
-| **$f_{\text{eml\_test3}}$** |  $x_0^2 + x_1^2 + x_0 x_1$ | $2.6 \times 10^{-6}$ / $2.9 \times 10^{-6}$ <br> **14** | $6.38797$ / $6.47829$ <br> **37** |
-| **$f_{\text{eml\_test4}}$** |  $\cos(x_0) + \sin(x_1)$ | $0.14030$ / $0.17403$ <br> **46** | $0.61475$ / $0.62960$ <br> **150** | 
+| **$f_{\text{eml\\_test1}}$** | $x_0^2 $| $9.8 \times 10^{-7}$ / $1.1 \times 10^{-6}$ <br> **12** | $0.99891$ / $1.21311$ <br> **19** |
+| **$f_{\text{eml\\_test2}}$** |$x_0^3 $ | $6.9 \times 10^{-6}$ / $6.6 \times 10^{-6}$ <br> **10** | $13.46164$ / $14.28857$ <br> **25** |
+| **$f_{\text{eml\\_test3}}$** |  $x_0^2 + x_1^2 + x_0 x_1$ | $2.6 \times 10^{-6}$ / $2.9 \times 10^{-6}$ <br> **14** | $6.38797$ / $6.47829$ <br> **37** |
+| **$f_{\text{eml\\_test4}}$** |  $\cos(x_0) + \sin(x_1)$ | $0.14030$ / $0.17403$ <br> **46** | $0.61475$ / $0.62960$ <br> **150** | 
 The plot below shows a comparative view of the accuracy _Test RMSE_ on a log scale and _model complexity_ on a linear scale across all 10 benchmark formulas:
 
 ![Performance and Complexity Comparison](./experiments/results/final/final_run_visualization.png)
@@ -133,7 +133,7 @@ To address EML's extreme numerical sensitivity and representation complexity, a 
 
 #### Objectives of the Reduced Domain and Multi-Tree Setup
 1. **Preventing Overflow/Clipping:** Under $[0.1, 5.9]$, nested exponentials immediately hit BSR's internal $10^{12}$ clipping ceiling. Reducing the domain to $3.0$ lowers the raw values (since exponents are less prone to explode), preventing the MCMC sampler from getting stuck in clipped, gradient-less regions.
-2. **Increasing Additive Capacity (Multi-Tree Configurations):** BSR was configured to use up to 4 trees for $f_1, f_3, f_4, f_5, f_6, f_{\text{eml\_test4}}$, 2 trees for $f_2, f_{\text{cos}}$, and 1 tree for $f_{\text{xy}}, f_{\text{eml\_test1}}, f_{\text{eml\_test2}}$ (based on optimal estimated additive structures).
+2. **Increasing Additive Capacity (Multi-Tree Configurations):** BSR was configured to use up to 4 trees for $f_1, f_3, f_4, f_5, f_6, f_{\text{eml\\_test4}}$, 2 trees for $f_2, f_{\text{cos}}$, and 1 tree for $f_{\text{xy}}, f_{\text{eml\\_test1}}, f_{\text{eml\\_test2}}$ (based on optimal estimated additive structures).
 3. **Optimized Hyperparameters:** The experiments were run with a search budget of 500 proposals per step and 96 iterations, using customized initial simulated annealing temperatures ($T_{\text{start}} \in [50.0, 300.0]$) to maximize exploration.
 4. **Trigonometric and Product Benchmarks:** Added $f_{\text{cos}} := \cos(x_0)$ and $f_{\text{xy}} := x_0 \cdot x_1$ to benchmark EML's core representation capabilities on transcendental and multiplicative primitives.
 
@@ -150,10 +150,10 @@ The best results obtained across the runs (`20260627_132940` and `20260627_14440
 | **$f_6$** | $1.35 x_0 x_1 + 5.5 \sin((x_0-1)(x_1-1))$ | 4 | 2 | 190 | 2.0821 | 2.0951 | **Collapsed to 2 active trees**; 2 trees died. |
 | **$f_{\text{xy}}$** | $x_0 x_1$ | 1 | 1 | 19 | 0.4142 | 0.4322 | Fits as a single multiplicative EML tree. |
 | **$f_{\text{cos}}$** | $\cos(x_0)$ | 2 | 1 | 160 | 0.2286 | 0.2451 | **Collapsed to 1 active tree**; 1 tree died. |
-| **$f_{\text{eml\_test1}}$** | $x_0^2$ | 1 | 1 | 19 | 0.1458 | 0.1519 | Stable quadratic approximation. |
-| **$f_{\text{eml\_test2}}$** | $x_0^3$ | 1 | 1 | 29 | 0.1877 | 0.1870 | Stable cubic approximation. |
-| **$f_{\text{eml\_test3}}$** | $x_0^2 + x_1^2 + x_0 x_1$ | 3 | 3 | 69 | 0.6966 | 0.7425 | Full 3-tree additive fit. |
-| **$f_{\text{eml\_test4}}$** | $\cos(x_0) + \sin(x_1)$ | 4 | 3 | 150 | 0.1564 | 0.2188 | **Collapsed to 3 active trees**; 1 tree died. |
+| **$f_{\text{eml\\_test1}}$** | $x_0^2$ | 1 | 1 | 19 | 0.1458 | 0.1519 | Stable quadratic approximation. |
+| **$f_{\text{eml\\_test2}}$** | $x_0^3$ | 1 | 1 | 29 | 0.1877 | 0.1870 | Stable cubic approximation. |
+| **$f_{\text{eml\\_test3}}$** | $x_0^2 + x_1^2 + x_0 x_1$ | 3 | 3 | 69 | 0.6966 | 0.7425 | Full 3-tree additive fit. |
+| **$f_{\text{eml\\_test4}}$** | $\cos(x_0) + \sin(x_1)$ | 4 | 3 | 150 | 0.1564 | 0.2188 | **Collapsed to 3 active trees**; 1 tree died. |
 
 #### Phenomenon of "Tree Death" and Surface Shifts (OLS Discarding)
 Even when BSR was given a budget of 3 (default) or 4 trees, the stochastic MCMC sampler was unable to coordinate them into a unified fit. Instead, one or more trees always "died" (bloated into a highly complex, random shape that OLS eventually zeroed out by assigning a coefficient $<10^{-12}$). This shows that merely increasing the tree count does not help BSR solve EML's combinatorial limits; rather, BSR naturally reverts to a lower-capacity model of 1 or 2 active trees.
@@ -433,22 +433,20 @@ The table below shows the performance of this approach:
 
 | Formula | Target | Test RMSE | Tree Complexity | Extracted Formula / Structure |
 |---|---|---|---|---|
-| **$f_{\text{eml\_test1}}$** | $x_0^2$ | 0.4596 | 11 | **Compact Rational Form**: $-33.0473 + 6.65871 \cdot \left( \frac{e^e}{e - \ln x_0} - x_0 \right)$ |
-| **$f_{\text{eml\_test2}}$** | $x_0^3$ | **6.2633** (was 9.75) | 13 | **Compact Nested Form**: $6.21913 + 0.660542 \cdot \left( e^{e^{e - \ln(e^{e - \ln x_0} - \ln(e - \ln x_0))} - \ln 1} - \ln x_0 \right)$ |
-| **$f_{\text{eml\_test3}}$** | $x_0^2 + x_1^2 + x_0 x_1$ | **3.4740** (was 6.23) | 69 | **Multi-tree Structure**: Combines 3 complex EML trees. Substantially improved RMSE (halved the error) over the unguided run. |
-| **$f_{\text{eml\_test4}}$** | $\cos(x_0) + \sin(x_1)$ | 0.6528 | 150 | **Deep but poor trigonometric approximation**: Combines 4 extremely deep trees ($c \approx 40$ each) to approximate transcendental behavior, but results are poor in practice. |
+| **$f_{\text{eml\\_test1}}$** | $x_0^2$ | 0.4596 | 11 | **Compact Rational Form**: $-33.0473 + 6.65871 \cdot \left( \frac{e^e}{e - \ln x_0} - x_0 \right)$ |
+| **$f_{\text{eml\\_test2}}$** | $x_0^3$ | **6.2633** (was 9.75) | 13 | **Compact Nested Form**: $6.21913 + 0.660542 \cdot \left( e^{e^{e - \ln(e^{e - \ln x_0} - \ln(e - \ln x_0))} - \ln 1} - \ln x_0 \right)$ |
+| **$f_{\text{eml\\_test3}}$** | $x_0^2 + x_1^2 + x_0 x_1$ | **3.4740** (was 6.23) | 69 | **Multi-tree Structure**: Combines 3 complex EML trees. Substantially improved RMSE (halved the error) over the unguided run. |
+| **$f_{\text{eml\\_test4}}$** | $\cos(x_0) + \sin(x_1)$ | 0.6528 | 150 | **Deep but poor trigonometric approximation**: Combines 4 extremely deep trees ($c \approx 40$ each) to approximate transcendental behavior, but results are poor in practice. |
 
 #### Key Conclusions:
 1. **Right-Left Guidance is Highly Effective**: Rather than strictly constraining depth or randomly probing the uniform space, injecting the `eml_unary_chain` prior enabled BSR to naturally find much deeper and highly relevant topologies.
-2. **Structural Efficiency**: For $f_{\text{eml\_test1}}$ and $f_{\text{eml\_test2}}$, the conditional prior forced the discovery of tighter, more efficient representations (complexities dropped from 17 down to 11 and 13 respectively) while fitting the polynomials remarkably well. Though exact cubic formula was not discovered.
+2. **Structural Efficiency**: For $f_{\text{eml\\_test1}}$ and $f_{\text{eml\\_test2}}$, the conditional prior forced the discovery of tighter, more efficient representations (complexities dropped from 17 down to 11 and 13 respectively) while fitting the polynomials remarkably well. Though exact cubic formula was not discovered.
 
-| Fitted | Original |
-| :---: | :---: |
-|![alt text](image.png)| ![alt text](image-1.png)|
+![alt text](image-1.png)
 
 
-3. **Overcoming the Combinatorial Wall**: The massive 35% and 45% RMSE reductions on $f_{\text{eml\_test2}}$ and $f_{\text{eml\_test3}}$ prove that the conditional prior helps traverse the "fitness valleys" previously blocking MCMC growth.
-4. **Trigonometric Representation Reality**: Although the conditional prior allowed BSR to construct deeper trees ($c \approx 150$), **visual and numerical examination reveals a very poor approximation** of the $\cos(x_0) + \sin(x_1)$ surface. The sampler completely fails to capture the periodic, oscillatory behavior of the target. The fitted surface is visually almost flat with minor linear trends because the OLS step assigns the complex, bloated trees coefficients very close to zero (e.g., $< 0.029$). Finding the exact trigonometric representation remains blocked by the massive combinatorial wall of the Euler identity ($c \approx 255$), proving that EML is practically unable to discover periodic functions under stochastic MCMC search.
+1. **Overcoming the Combinatorial Wall**: The massive 35% and 45% RMSE reductions on $f_{\text{eml\\_test2}}$ and $f_{\text{eml\\_test3}}$ prove that the conditional prior helps traverse the "fitness valleys" previously blocking MCMC growth.
+2. **Trigonometric Representation Reality**: Although the conditional prior allowed BSR to construct deeper trees ($c \approx 150$), **visual and numerical examination reveals a very poor approximation** of the $\cos(x_0) + \sin(x_1)$ surface. The sampler completely fails to capture the periodic, oscillatory behavior of the target. The fitted surface is visually almost flat with minor linear trends because the OLS step assigns the complex, bloated trees coefficients very close to zero (e.g., $< 0.029$). Finding the exact trigonometric representation remains blocked by the massive combinatorial wall of the Euler identity ($c \approx 255$), proving that EML is practically unable to discover periodic functions under stochastic MCMC search.
 
 ### EML vs. Paper Operation Set: Representation Strengths and Practical Limitations
 

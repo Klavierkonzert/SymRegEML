@@ -34,9 +34,13 @@ Symbolic regression searches the space of mathematical expressions to discover a
 
 ### Theoretical Comparison: BSR vs. Kolmogorov-Arnold
 * **Bayesian SR (BSR)** models the output as a linear combination of symbolic trees:
-  \[y = \beta_0 + \sum_{i=1}^{k} \beta_i \cdot T_i(x) + \epsilon\]
+  ```math
+  y = \beta_0 + \sum_{i=1}^{k} \beta_i \cdot T_i(x) + \epsilon
+  ```
 * **Kolmogorov-Arnold Representation** decomposes multivariate functions into nested sums of continuous univariate functions:
-  \[f(x_1, \dots, x_n) = \sum_{q=0}^{2n} \Phi_q \left( \sum_{p=1}^n \phi_{q,p}(x_p) \right)\]
+  ```math
+  f(x_1, \dots, x_n) = \sum_{q=0}^{2n} \Phi_q \left( \sum_{p=1}^n \phi_{q,p}(x_p) \right)
+  ```
 
 While both use outer addition ($+$) to aggregate subfunctions, BSR focuses on finding discrete, human-interpretable algebraic equations rather than continuous network layers.
 
@@ -46,7 +50,10 @@ While both use outer addition ($+$) to aggregate subfunctions, BSR focuses on fi
 
 ## Bayesian Symbolic Regression (BSR) Mechanics
 
-* The overall response variable $y$ **aggregates** $k$ independent symbolic trees via an Ordinary Least Squares (OLS) fitting pipeline: \[y = \text{OLS}\left(x, \{(T_i, M_i, \Theta_i)\}_{i=1}^{k}\right) + \epsilon, \quad \epsilon \sim N(0, \sigma^2)\]
+* The overall response variable $y$ **aggregates** $k$ independent symbolic trees via an Ordinary Least Squares (OLS) fitting pipeline:
+  ```math
+  y = \text{OLS}\left(x, \{(T_i, M_i, \Theta_i)\}_{i=1}^{k}\right) + \epsilon, \quad \epsilon \sim N(0, \sigma^2)
+  ```
 * BSR uses structural complexity **priors** on trees ($T$) to penalize deep or wide topologies and avoid overfitting.
 * **Parametrization:** For `default` and `paper` sets, linear scaling nodes ($ax+b$) are tuned using Gaussian priors around the identity function. For the final model, tree weights ($\beta_i$) and the global intercept ($\beta_0$) are solved jointly using Ordinary Least Squares (OLS).
 * **Metropolis-Hastings Sampling -** structural exploration iteratively samples modified tree topologies from a proposal distribution, accepting or rejecting structural changes sequentially
@@ -56,7 +63,9 @@ While both use outer addition ($+$) to aggregate subfunctions, BSR focuses on fi
 
 The EML operator provides a functional framework capable of representing every elementary mathematical function.
 * **Completeness:** The $\{\text{EML}, 1\}$ set is functionally complete. Over the complex plane, negative arguments allow standard trigonometric and hyperbolic functions to be represented as complex exponential configurations via Euler's identity:
-  \[\cos(x) = \frac{e^{ix} + e^{-ix}}{2}, \quad \sin(x) = \frac{e^{ix} - e^{-ix}}{2i}\]
+  ```math
+  \cos(x) = \frac{e^{ix} + e^{-ix}}{2}, \quad \sin(x) = \frac{e^{ix} - e^{-ix}}{2i}
+  ```
 
 
 
@@ -77,7 +86,7 @@ The BSR framework was evaluated using three operator sets on:
    - $f_4:= 1.5 \exp(x_0) + 5 \cos(x_1)$
    - $f_5:= 6  \sin(x_0)  \cos(x_1) $
    - $f_6:= 1.35 x_0 x_1 + 5.5 \sin((x_0- 1.0) \cdot (x_1 - 1.0))$
-2. **EML-specific test targets** ($f_{\text{eml\_test1}}$ to $f_{\text{eml\_test4}}$):
+2. **EML-specific test targets** ($f_{\text{eml\\_test1}}$ to $f_{\text{eml\\_test4}}$):
    -  $f_{eml\_test1} := x_0^2$
    -  $f_{eml\_test2} := x_0^3$ 
    -  $f_{eml\_test3} :=x_0^2 + x_1^2 + x_0 x_1$
