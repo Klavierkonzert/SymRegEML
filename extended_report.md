@@ -125,12 +125,12 @@ python experiments/run_paper_formulas.py --formulas f1 f2 f_eml_test1 --operatio
 
 
 The following 6 formulas were used as a benchmark in the original **BSR paper**:
-- $ f_1 := 2.5 x_0 ^4 - 1.3  x_0^3 + 0.5  x_1^2 - 1.7  x_1$
-- $ f_2 := 8 x_0 ^ 2 + 8 x_1 ^ 3 - 15 $
-- $ f_3 := 0.2 x_0 ^ 3 + 0.5 x_1 ^ 3 - 1.2 x_1 - 0.5 x_0 $
-- $ f_4:= 1.5 \exp(x_0) + 5 \cos(x_1) $
-- $ f_5:= 6  \sin(x_0)  \cos(x_1) $
-- $ f_6:= 1.35 x_0 x_1 + 5.5 \sin((x_0- 1.0) \cdot (x_1 - 1.0)) $
+   - $f_1 := 2.5 x_0 ^4 - 1.3  x_0^3 + 0.5  x_1^2 - 1.7  x_1$
+   - $f_2 := 8 x_0 ^ 2 + 8 x_1 ^ 3 - 15$
+   - $f_3 := 0.2 x_0 ^ 3 + 0.5 x_1 ^ 3 - 1.2 x_1 - 0.5 x_0$
+   - $f_4:= 1.5 \exp(x_0) + 5 \cos(x_1)$
+   - $f_5:= 6  \sin(x_0)  \cos(x_1) $
+   - $f_6:= 1.35 x_0 x_1 + 5.5 \sin((x_0- 1.0) \cdot (x_1 - 1.0))$
   
 Evaluation: dataset consists of uniformly generated 100 sample data points across the domain range $x_0,x_1 \in [0.1, 5.9]$.
 
@@ -310,8 +310,8 @@ To allow the MCMC sampler to find and maintain these complex structures, several
 ```
 
 
-    When $\beta = -1.0$ or $\beta = -0.5$, this probability decays very quickly. The prior probability of a large tree (e.g., depth 8, complexity 100) is computationally zero, causing the MCMC sampler to immediately reject large proposals.
-    Thus, $\beta$ should be chosen closer to zero (e.g., $\beta = -0.1$ or $\beta = -0.05$) to flatten the depth penalty and allow complex trees (while max depth limit should be imposed (e.g. <40) to avoid infinite expansion)
+  When $\beta = -1.0$ or $\beta = -0.5$, this probability decays very quickly. The prior probability of a large tree (e.g., depth 8, complexity 100) is computationally zero, causing the MCMC sampler to immediately reject large proposals.
+  Thus, $\beta$ should be chosen closer to zero (e.g., $\beta = -0.1$ or $\beta = -0.05$) to flatten the depth penalty and allow complex trees (while max depth limit should be imposed (e.g. <40) to avoid infinite expansion)
 2. Adjust the **Growth Proposal Bias** ($p_{\text{grow}}$)
     The MCMC proposal probability for growing a node is: 
 ```math
@@ -319,8 +319,8 @@ p_{\text{grow}} = (1 - p_{\text{stay}}) \cdot \frac{\min(1, 4 / (N_{\text{intern
 ```
 
 
-    As the tree gets larger (e.g., $N_{\text{internal}} \ge 50$), $p_{\text{grow}}$ becomes extremely small, while pruning actions become much more common.
-    Adjusting the proposal probability calculation ensures that growth proposals remain active and resilient
+  As the tree gets larger (e.g., $N_{\text{internal}} \ge 50$), $p_{\text{grow}}$ becomes extremely small, while pruning actions become much more common.
+  Adjusting the proposal probability calculation ensures that growth proposals remain active and resilient
 3. **Simulated Annealing Tempering:** Scaling the core log-likelihood calculations by an adjustable temperature factor ($1/T$) during early execution phases permits the Markov chain to explore large, temporary high-error structures without triggering immediate rejection, thus passing a massive "fitness valley" of flat, high-error likelihood.
 4. **Numerical Clipping, OLS Suppression, and Raw Evaluation Divergence**
     * **Numerical Clipping in Training:** Because the EML operation set contains recursively nested exponentials, outputs can easily overflow standard float representations. The BSR code (`MCMC-SymReg/codes/funcs.py`) prevents this by clipping the inputs of exponential nodes to `SAFE_LOG_VALUE` ($\approx 27.63$), meaning internal tree evaluations are capped at `SAFE_VALUE` ($1e12$). 
@@ -385,7 +385,7 @@ Introducing Simulated Annealing to force the chain out of these local minima (wi
 This confirms that simply allowing the tree to grow large via weaker priors or high temperatures does not help BSR find the specific deep, nested structures required by EML; it merely leads to unsearchable, high-error tree bloat.
 
 
-### Deeply Restricted Depth and Loose Prior ($\beta = -0.1$, $\text{max\_depth} = 18$)
+### Deeply Restricted Depth and Loose Prior ($\beta = -0.1$, $\text{max\\_depth}=18$)
 To test if the sampler could navigate the search space when focused only on the depth-restricted subspace where the exact EML representations ($x^2$ depth 9, $x^3$ depth 17) reside, I ran experiments with `max_depth = 18` and a very loose prior `beta = -0.1` (which imposes virtually no penalty on growing):
 * **$f_1$ (EML)**: Bloated to a complexity of **235** (Train RMSE: `35.0919`, which is worse than the constrained run!). The sampler got lost in the massive, chaotic search space of deep trees where random changes have unpredictable effects, resulting in a large, meaningless tree with poor coefficients.
 * **$f_2$ (EML)**: Collapsed to a complexity of **5** (Train RMSE: `48.0886`), representing only the simplest terms $3.87 e^{x_1} + 49.4 x_0 + 92.2 x_1 - 167.9$. Because all proposed intermediate large trees fit the data poorly, the sampler preferred the simplest linear/exponential terms.
@@ -428,7 +428,7 @@ The following hyperparameters were used: $\beta \in \{-1.0, -0.5, -0.1\}$, initi
 #### Experiment B: Unlimited depth (`max_depth = None`, `max_complexity = 20`)
 To focus the search space only on compact structures, the experiment was run with `max_depth = None` and a strict `max_complexity = 20` (allowing 3 nodes of headroom above the exact 17-node representation). This configuration proved highly successful:
 * **Run 2** (strict prior $\beta = -1.0$, mild SA $T_{\text{start}} = 50.0$): Discovered an extremely compact **11-node** tree with a Train RMSE of **0.5191** and Test RMSE of **0.4596**. The fitted mathematical expression simplifies to:
-  ```math
+```math
 -33.0473 + 6.65871 \cdot \left( \frac{e^e}{e - \ln x_0} - x_0 \right)
 ```
   This represents an exceptionally clean, low-complexity rational approximation of the quadratic curve (with error $\approx 0.14$ at the boundaries).

@@ -28,9 +28,19 @@ Full comprehensive yet less structured version of this report can be found here:
 Symbolic regression searches the space of mathematical expressions to discover a model that best fits a dataset, balancing accuracy and complexity without assuming a pre-specified model shape:
 * Syntax trees represent mathematical expressions. While standard operator sets mix binary and unary branches, the EML set produces strictly binary trees.
 * The following operation sets are compared in this study:
-  * **Original Paper Set (`paper`):** $$\Omega_{\text{paper}} = \{+, \times, \exp(x), 1/x, -x, ax+b\}$$
-  * **Extended Set (`default`):** $$\Omega_{\text{default}} = \Omega_{\text{paper}} \cup \{\sin, \cos, x^2, x^3\}$$
-  * **EML Set (`exp_log`):** $$\Omega_{\text{EML}} = \{1, \text{eml}(x, y) = \exp(x) - \ln(y)\}$$
+  * **Original Paper Set (`paper`):** 
+```math
+\Omega_{paper} = \{+,\ \times,\ \exp(x),\ inv(x):=1/x,\ neg(x):=-x,\ lt_{a,b}(x):=ax+b\}
+```
+
+  * **Extended Set (`default`):** 
+```math
+\Omega_{EML} = \{1,\ eml(x,y):=\exp(x)-\ln(y)\}
+```
+  * **EML Set (`exp_log`):**
+```math
+\Omega_{EML} = \{1,\ eml(x,y):=\exp(x)-\ln(y)\}
+```
 
 ### Theoretical Comparison: BSR vs. Kolmogorov-Arnold
 * **Bayesian SR (BSR)** models the output as a linear combination of symbolic trees:
@@ -38,9 +48,6 @@ Symbolic regression searches the space of mathematical expressions to discover a
   y = \beta_0 + \sum_{i=1}^{k} \beta_i \cdot T_i(x) + \epsilon
   ```
 * **Kolmogorov-Arnold Representation** decomposes multivariate functions into nested sums of continuous univariate functions:
-  ```math
-  f(x_1, \dots, x_n) = \sum_{q=0}^{2n} \Phi_q \left( \sum_{p=1}^n \phi_{q,p}(x_p) \right)
-  ```
   ```math
   f(x_1, \dots, x_n) = \sum_{q=0}^{2n} \Phi_q \left( \sum_{p=1}^n \phi_{q,p}(x_p) \right)
   ```
@@ -89,7 +96,7 @@ The BSR framework was evaluated using three operator sets on:
    - $f_4:= 1.5 \exp(x_0) + 5 \cos(x_1)$
    - $f_5:= 6  \sin(x_0)  \cos(x_1) $
    - $f_6:= 1.35 x_0 x_1 + 5.5 \sin((x_0- 1.0) \cdot (x_1 - 1.0))$
-2. **EML-specific test targets** ($f_{\text{eml\\_test1}}$ to $f_{\text{eml\\_test4}}$):
+2. **EML-specific test targets** (f<sub>eml_test1</sub> to f<sub>eml_test4</sub>):
    -  $f_{\text{eml\\_test1}} := x_0^2$
    -  $f_{\text{eml\\_test2}} := x_0^3$ 
    -  $f_{\text{eml\\_test3}} :=x_0^2 + x_1^2 + x_0 x_1$
@@ -280,7 +287,7 @@ This conditional prior structure was proposed based on the exact mathematical st
 
 <div style="break-after: page;"></div>
 
-This structural prior forces the MCMC sampler to construct asymmetric, right-leaning "comb" topologies (like the one shown below), successfully halving the RMSE on $f_{\text{eml\\_test2}}$ and $f_{\text{eml\\_test3}}$:
+This structural prior forces the MCMC sampler to construct asymmetric, right-leaning "comb" topologies (like the one shown below), successfully halving the RMSE on f<sub>eml_test2</sub> and f<sub>eml_test3</sub>:
 
 
 
@@ -307,7 +314,7 @@ flowchart TD
 
 
 ### Key Findings:
-* **Significant Search Efficiency:** For $f_{\text{eml\\_test1}}$ (quadratic function) and $f_{\text{eml\\_test2}}$ (cubic function), the prior forced BSR to find compact, tight approximations (reducing complexity from 17 down to 11 and 13 respectively) while halving the test RMSE on multi-term targets like $f_{\text{eml\\_test3}}$. The plot below illustrates EML-approximated cubic function:
+* **Significant Search Efficiency:** For f<sub>eml_test1</sub> (quadratic function) and f<sub>eml_test2</sub> (cubic function), the prior forced BSR to find compact, tight approximations (reducing complexity from 17 down to 11 and 13 respectively) while halving the test RMSE on multi-term targets like f<sub>eml_test3</sub>. The plot below illustrates EML-approximated cubic function:
 <p align="center">
 <img src="image-1.png" alt="Example Image" width="60%" height="60%" >
 </p>
